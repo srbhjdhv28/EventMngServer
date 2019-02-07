@@ -24,7 +24,7 @@ class UserController {
         this.routes();
     }
     routes() {
-        this.router.get('/login', this.checkAndSaveUser);
+        this.router.post('/login', this.checkAndSaveUser);
         this.router.post('/verify', this.verifyToken);
         this.router.get('/verifyEmail', this.verifyEmail);
         this.router.post('/registerUser', this.registerNewUser);
