@@ -23,7 +23,7 @@ export class UserController{
     }
 
     public verifyEmail(req:Request, res:Response) : any{
-        console.log('request email is'+req.query.email);
+        console.log('request email is'+req.headers);
         // Code to send Email to specified user
         if(!req.query.email) return res.status(500).send({auth:false,message:'Invalid Email'});
     
