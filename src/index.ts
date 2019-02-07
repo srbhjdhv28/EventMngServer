@@ -17,7 +17,7 @@ class Server {
         this.app.use(bodyParser.json());
         this.app.use(function(req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
-            res.header('Access-Control-Allow-Headers', 'Content-Type,saurabh, Content-Length, X-Requested-With, Accept');
+            res.header('Access-Control-Allow-Headers', 'Content-Type,access-token, Content-Length, X-Requested-With, Accept');
             next();
             
         });
