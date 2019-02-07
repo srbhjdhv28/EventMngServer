@@ -130,8 +130,8 @@ class UserController {
         }
     }
     checkAndSaveUser(req, res) {
-        let email = req.query.email;
-        let password = req.query.password;
+        let email = req.body.email;
+        let password = req.body.password;
         let query = "SELECT Id,FirstName,LastName,Email,Password FROM Users WHERE Email = '" + email + "'";
         db_1.default.query(query, function (r, records, m) {
             if (records && records.length > 0) {

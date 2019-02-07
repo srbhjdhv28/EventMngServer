@@ -120,8 +120,8 @@ export class UserController{
     }
 
     public checkAndSaveUser(req : Request, res: Response) : void {
-        let email = req.query.email;
-        let password = req.query.password;
+        let email = req.body.email;
+        let password = req.body.password;
         let query = "SELECT Id,FirstName,LastName,Email,Password FROM Users WHERE Email = '"+email+"'";
         pool.query(query,function(r,records,m){
             if(records && records.length > 0){
