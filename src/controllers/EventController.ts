@@ -13,7 +13,7 @@ export class EventController {
     public routes(){
         this.router.get('/getAllEvents',this.getAllEventsByUID);
     }
-
+    // Description:
     public getAllEventsByUID(req: Request, res: Response){
         console.log(req.headers);
         const headerToken: any = req.headers['access-token'];
