@@ -129,8 +129,8 @@ export class UserController{
                         if(error){
                             res.send({auth:false,message:"Password not valid"});
                         }else{
-                            const token = jwt.sign({id:records[0].Id},config.secretKey,{expiresIn:'10800'});
-                            res.send({auth:true,message:"Password Matched",token:token,records:records});
+                            const token = jwt.sign({id:records[0].Id},config.secretKey,{expiresIn:'108000'});
+                            res.send({auth:true,message:"Password Matched",token:token,userId:records[0].Id});
                         }
                 });
             }else{

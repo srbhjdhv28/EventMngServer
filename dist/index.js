@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const UserController_1 = require("./controllers/UserController");
+const EventController_1 = require("./controllers/EventController");
 const userController = new UserController_1.UserController();
+const eventController = new EventController_1.EventController();
 class Server {
     constructor() {
         this.app = express_1.default();
@@ -27,6 +29,7 @@ class Server {
         const router = express_1.default.Router();
         this.app.use('/', router);
         this.app.use('/users', userController.router);
+        this.app.use('/events', eventController.router);
     }
 }
 exports.default = new Server().app;

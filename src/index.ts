@@ -1,8 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
 import {UserController} from "./controllers/UserController";
+import { EventController } from './controllers/EventController';
 
 const userController = new UserController();
+const eventController = new EventController();
 
 class Server {
     public app:express.Application;
@@ -28,6 +30,7 @@ class Server {
         const router: express.Router = express.Router();
         this.app.use('/',router);
         this.app.use('/users',userController.router);
+        this.app.use('/events', eventController.router);
     }
 }
 export default new Server().app;
