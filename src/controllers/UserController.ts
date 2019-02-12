@@ -126,11 +126,11 @@ export class UserController{
         pool.query(query,function(r,records,m){
             if(records && records.length > 0){
                 bcrypt.compare(password,records[0].Password,function(error,result){
-                        if(error){
-                            res.send({auth:false,message:"Password not valid"});
-                        }else{
+                        if(result){
                             const token = jwt.sign({id:records[0].Id},config.secretKey,{expiresIn:'108000'});
                             res.send({auth:true,message:"Password Matched",token:token,userId:records[0].Id});
+                        }else{
+                            res.send({auth:false,message:"Password not valid"});
                         }
                 });
             }else{

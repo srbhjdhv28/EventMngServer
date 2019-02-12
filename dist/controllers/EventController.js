@@ -22,6 +22,7 @@ class EventController {
     routes() {
         this.router.get('/getAllEvents', this.getAllEventsByUID);
     }
+    // Description:
     getAllEventsByUID(req, res) {
         console.log(req.headers);
         const headerToken = req.headers['access-token'];
