@@ -135,15 +135,12 @@ class UserController {
         let query = "SELECT Id,FirstName,LastName,Email,Password FROM Users WHERE Email = '" + email + "'";
         db_1.default.query(query, function (r, records, m) {
             if (records && records.length > 0) {
-                console.log('Password---', JSON.stringify(records));
                 bcrypt.compare(password, records[0].Password, function (error, result) {
                     if (result) {
-                        console.log('Password passed---', JSON.stringify(result));
-                        const token = jwt.sign({ id: records[0].Id }, config_1.default.secretKey, { expiresIn: '108000' });
+                        const token = jwt.sign({ id: records[0].Id }, config_1.default.secretKey, { expiresIn: "2 days" });
                         res.send({ auth: true, message: "Password Matched", token: token, userId: records[0].Id });
                     }
                     else {
-                        console.log('Password failed---', JSON.stringify(records));
                         res.send({ auth: false, message: "Password not valid" });
                     }
                 });
