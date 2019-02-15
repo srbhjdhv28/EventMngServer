@@ -137,7 +137,7 @@ class UserController {
             if (records && records.length > 0) {
                 bcrypt.compare(password, records[0].Password, function (error, result) {
                     if (result) {
-                        const token = jwt.sign({ id: records[0].Id }, config_1.default.secretKey, { expiresIn: "2 days" });
+                        const token = jwt.sign({ id: records[0].Id }, config_1.default.secretKey, { expiresIn: "120000" });
                         res.send({ auth: true, message: "Password Matched", token: token, userId: records[0].Id });
                     }
                     else {
