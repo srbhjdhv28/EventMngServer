@@ -20,8 +20,8 @@ export class EventController {
         const userId: any = req.query.uid;
         if(headerToken){
             jwt.verify(headerToken,config.secretKey, function(err:any){
-                if(!err){
-                    let eventQuery = "SELECT * FROM EVENTS WHERE UserId = '"+userId+"'";
+                if(!err){    
+                   let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) WHERE e.UserId = Users.Id ";
                     pool.query(eventQuery,function(r,records,m){
                         console.log(records);
                         res.send(records);
