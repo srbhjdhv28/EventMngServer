@@ -128,7 +128,12 @@ export class UserController{
                 bcrypt.compare(password,records[0].Password,function(error,result){
                         if(result){
                             const token = jwt.sign({id:records[0].Id},config.secretKey,{expiresIn:"2 days"}); //120000 = 2minutes
-                            res.send({auth:true,message:"Password Matched",token:token,userId:records[0].Id});
+                            const userData = {
+                                userId : records[0].Id,
+                                firstName : records[0].FirstName,
+                                lastName :records[0].LastName
+                            };
+                            res.send({auth:true,message:"Password Matched",token:token,userData});
                         }else{
                             res.send({auth:false,message:"Password not valid"});
                         }
