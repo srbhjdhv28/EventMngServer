@@ -1,7 +1,19 @@
 import {Request,Response,Router} from "express";
-import pool from '../utility/db';
-import config from "../config";
+import {CONFIG}  from "../config";
 import * as jwt from "jsonwebtoken";
+import { Events } from '../models/Events';
+import { Locations } from '../models/Locations';
+import {  Users } from '../models/Users';
+import {  Participants } from '../models/Participants';
+
+Events.hasMany(Locations,{foreignKey: 'EventId', sourceKey: 'id'});
+Locations.belongsTo(Events,{foreignKey: 'EventId', targetKey: 'id'});
+
+Events.hasMany(Participants,{foreignKey: 'EventId', sourceKey: 'id'});
+Participants.belongsTo(Events,{foreignKey: 'EventId', targetKey: 'id'});
+
+Users.hasMany(Events,{foreignKey: 'UserId', sourceKey: 'id'});
+Events.belongsTo(Users,{foreignKey: 'UserId', targetKey: 'id'});
 
 export class EventController {
     public router: Router;
@@ -19,13 +31,12 @@ export class EventController {
         const headerToken: any = req.headers['access-token'];
         const userId: any = req.query.uid;
         if(headerToken){
-            jwt.verify(headerToken,config.secretKey, function(err:any){
-                if(!err){    
-                   let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.*, p.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) INNER JOIN Participants AS p ON (p.EventId = e.Id) WHERE e.UserId = Users.Id ";
-                    pool.query(eventQuery,function(r,records,m){
-                        //console.log(records);
-                        res.send(records);
-                    })
+            jwt.verify(headerToken,CONFIG.secretKey, function(err:any){
+                if(!err){   
+                //    let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.*, p.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) INNER JOIN Participants AS p ON (p.EventId = e.Id) WHERE e.UserId = Users.Id ";
+                   Events.findAll({where:{UserId:userId}, include:[Locations,Participants,Users]}).then((records: any) => {
+                    res.send(records);
+                   });
                 }else{
                     res.status(500).send({auth:false, message:"Session Timeout",err:err});
                 }

@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -11,12 +8,15 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const db_1 = __importDefault(require("../utility/db"));
-const config_1 = __importDefault(require("../config"));
+const config_1 = require("../config");
 const bcrypt = __importStar(require("bcrypt"));
 const jwt = __importStar(require("jsonwebtoken"));
 const nodemailer = __importStar(require("nodemailer"));
-const cn = db_1.default;
+const Events_1 = require("../models/Events");
+const Users_1 = require("../models/Users");
+Users_1.Users.hasMany(Events_1.Events, { foreignKey: 'UserId', sourceKey: 'id' });
+Events_1.Events.belongsTo(Users_1.Users, { foreignKey: 'UserId', targetKey: 'id' });
+// const cn = pool;
 let otpNum;
 class UserController {
     constructor() {
@@ -71,9 +71,7 @@ class UserController {
         //Check if email is already registered.
         let requestedEmail = req.body.email;
         //let checkEmailProc = "CALL checkEmail(?,@emailRes); SELECT @emailRes;"
-        let query = "SELECT Id,FirstName,LastName,Email,Password FROM Users WHERE Email = '" + requestedEmail + "'";
-        db_1.default.query(query, requestedEmail, function (r, records, m) {
-            console.log(records);
+        Users_1.Users.findAll({ where: { Email: requestedEmail } }).then((records) => {
             if (records && records.length > 0) {
                 res.status(500).send({ auth: false, message: 'Email already registered' });
             }
@@ -82,8 +80,9 @@ class UserController {
                 if (!req.body.otpNum)
                     return res.status(500).send({ auth: false, message: 'No OTP found' });
                 var otp = req.body.otpNum;
+                delete req.body.otpNum;
                 console.log('saved OTP', otp, 'recieved otp ', otpNum);
-                var date = new Date(req.body.dob);
+                req.body.dob = new Date(req.body.dob);
                 //Check if OTP is valid
                 if (otpNum == otp) {
                     //Push new User in DB
@@ -94,17 +93,13 @@ class UserController {
                         }
                         else {
                             console.log(hash);
-                            let insertProcedure = "CALL insertUsers(?,?,?,?,?,?)";
-                            //let insertQuery = "INSERT INTO Users (FirstName, LastName, Email, Password, DOB, Country) VALUES (?,?,?,?,?,?)"
-                            db_1.default.query(insertProcedure, [req.body.firstName, req.body.lastName, hash, date, req.body.email, req.body.country], function (error, result) {
-                                if (error) {
-                                    console.log(error);
-                                    res.send({ auth: false, message: "Failed to create user" });
-                                }
-                                else {
-                                    console.log(result);
-                                    res.send({ auth: false, message: "User inserted with hash pwd", record: result });
-                                }
+                            req.body.password = hash;
+                            Users_1.Users.create(req.body).then((records) => {
+                                console.log(records);
+                                res.send({ auth: false, message: "User inserted with hash pwd", record: records });
+                            }).catch((error) => {
+                                console.log(error);
+                                res.send({ auth: false, message: "Failed to create user" });
                             });
                         }
                     });
@@ -119,7 +114,7 @@ class UserController {
         let headerToken = req.headers['access-token'];
         console.log(headerToken);
         if (headerToken) {
-            jwt.verify(headerToken, config_1.default.secretKey, function (error) {
+            jwt.verify(headerToken, config_1.CONFIG.secretKey, function (error) {
                 if (error) {
                     res.send({ auth: false, message: 'Token Invalid' });
                 }
@@ -132,16 +127,16 @@ class UserController {
     checkAndSaveUser(req, res) {
         let email = req.body.email;
         let password = req.body.password;
-        let query = "SELECT Id,FirstName,LastName,Email,Password FROM Users WHERE Email = '" + email + "'";
-        db_1.default.query(query, function (r, records, m) {
+        Users_1.Users.findAll({ where: { email: email } }).then((records) => {
+            console.log('recordss---' + JSON.stringify(records));
             if (records && records.length > 0) {
-                bcrypt.compare(password, records[0].Password, function (error, result) {
+                bcrypt.compare(password, records[0].password, function (error, result) {
                     if (result) {
-                        const token = jwt.sign({ id: records[0].Id }, config_1.default.secretKey, { expiresIn: "2 days" }); //120000 = 2minutes
+                        const token = jwt.sign({ id: records[0].Id }, config_1.CONFIG.secretKey, { expiresIn: "2 days" }); //120000 = 2minutes
                         const userData = {
-                            userId: records[0].Id,
-                            firstName: records[0].FirstName,
-                            lastName: records[0].LastName
+                            userId: records[0].id,
+                            firstName: records[0].firstName,
+                            lastName: records[0].lastName
                         };
                         res.send({ auth: true, message: "Password Matched", token: token, userData });
                     }
@@ -153,6 +148,8 @@ class UserController {
             else {
                 res.status(500).send({ auth: true, message: "Record not Found" });
             }
+        }).catch((error) => {
+            res.status(500).send({ auth: true, error: error, message: "Failed to fetch data" });
         });
     }
 }
