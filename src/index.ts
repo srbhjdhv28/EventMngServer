@@ -1,5 +1,4 @@
 import express from "express";
-import {Request,Response} from "express";
 import bodyParser from "body-parser";
 import * as jwt from "jsonwebtoken";
 import {CONFIG}  from "./config";
@@ -24,15 +23,15 @@ class Server {
     public  config(): void{
         this.app.use(bodyParser.urlencoded({extended:true}));        
         this.app.use(bodyParser.json());
-        this.app.use(cors());
+        this.app.use(cors());//Allows all requests
         this.app.use(function(req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
-            res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
+            res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, access-token");
             if(req.url.includes('verifyEmail') || req.url.includes('registerUser') || req.url.includes('login')){
                 next();
             }else{
-                console.log('test----'+req.headers['x-access-token']);
-                let headerToken: any =  req.headers['x-access-token'];
+                console.log('test----'+req.headers['access-token']);
+                let headerToken: any =  req.headers['access-token'];
                 if(headerToken){
                     jwt.verify(headerToken,CONFIG.secretKey,function(error:any){
                         if(error){

@@ -31,16 +31,16 @@ class Server {
     config() {
         this.app.use(body_parser_1.default.urlencoded({ extended: true }));
         this.app.use(body_parser_1.default.json());
-        this.app.use(cors());
+        this.app.use(cors()); //Allows all requests
         this.app.use(function (req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
-            res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
+            res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, access-token");
             if (req.url.includes('verifyEmail') || req.url.includes('registerUser') || req.url.includes('login')) {
                 next();
             }
             else {
-                console.log('test----' + req.headers['x-access-token']);
-                let headerToken = req.headers['x-access-token'];
+                console.log('test----' + req.headers['access-token']);
+                let headerToken = req.headers['access-token'];
                 if (headerToken) {
                     jwt.verify(headerToken, config_1.CONFIG.secretKey, function (error) {
                         if (error) {
