@@ -31,11 +31,9 @@ class Server {
         this.app.use(body_parser_1.default.urlencoded({ extended: true }));
         this.app.use(body_parser_1.default.json());
         this.app.use(function (req, res, next) {
-            console.log(req.url);
-            console.log(req.url.includes('verifyEmail'));
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header('Access-Control-Allow-Headers', 'Content-Type,access-token, Content-Length, X-Requested-With, Accept');
             if (req.url.includes('verifyEmail') || req.url.includes('registerUser') || req.url.includes('login')) {
-                res.header("Access-Control-Allow-Origin", "*");
-                res.header('Access-Control-Allow-Headers', 'Content-Type,access-token, Content-Length, X-Requested-With, Accept');
                 next();
             }
             else {
@@ -47,8 +45,6 @@ class Server {
                             res.status(500).send({ auth: false, message: "Token Invalid" });
                         }
                         else {
-                            res.header("Access-Control-Allow-Origin", "*");
-                            res.header('Access-Control-Allow-Headers', 'Content-Type,access-token, Content-Length, X-Requested-With, Accept');
                             next();
                         }
                     });
