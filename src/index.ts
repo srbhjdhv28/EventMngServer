@@ -31,6 +31,7 @@ class Server {
                 res.header('Access-Control-Allow-Headers', 'Content-Type,access-token, Content-Length, X-Requested-With, Accept');
                 next();
             }else{
+                console.log(req);
                 let headerToken: any =  req.headers['access-token'];
                 if(headerToken){
                     jwt.verify(headerToken,CONFIG.secretKey,function(error:any){
@@ -47,7 +48,7 @@ class Server {
                 }
             }
         });
-        this.app.listen(process.env.PORT || 5001);
+        this.app.listen(process.env.PORT || 5002);
     }
 
     public routes (): void {

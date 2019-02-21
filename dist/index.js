@@ -39,6 +39,7 @@ class Server {
                 next();
             }
             else {
+                console.log(req);
                 let headerToken = req.headers['access-token'];
                 if (headerToken) {
                     jwt.verify(headerToken, config_1.CONFIG.secretKey, function (error) {
@@ -57,7 +58,7 @@ class Server {
                 }
             }
         });
-        this.app.listen(process.env.PORT || 5001);
+        this.app.listen(process.env.PORT || 5002);
     }
     routes() {
         const router = express_1.default.Router();
