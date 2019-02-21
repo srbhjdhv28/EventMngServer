@@ -111,18 +111,17 @@ class UserController {
         });
     }
     verifyToken(req, res) {
-        let headerToken = req.headers['access-token'];
-        console.log(headerToken);
-        if (headerToken) {
-            jwt.verify(headerToken, config_1.CONFIG.secretKey, function (error) {
-                if (error) {
-                    res.send({ auth: false, message: 'Token Invalid' });
-                }
-                else {
-                    res.send({ auth: true, message: "Token Valid" });
-                }
-            });
-        }
+        // let headerToken: any =  req.headers['access-token'];
+        // console.log(headerToken);
+        // if(headerToken){
+        //     jwt.verify(headerToken,CONFIG.secretKey,function(error:any){
+        //         if(error){
+        //             res.send({auth:false,message:'Token Invalid'})
+        //         }else{
+        //             res.send({auth:true,message:"Token Valid"});
+        //         }
+        //     });
+        // }
     }
     checkAndSaveUser(req, res) {
         let email = req.body.email;

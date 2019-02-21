@@ -106,17 +106,17 @@ export class UserController{
     }
 
     public verifyToken(req: Request, res: Response) : void {
-        let headerToken: any =  req.headers['access-token'];
-        console.log(headerToken);
-        if(headerToken){
-            jwt.verify(headerToken,CONFIG.secretKey,function(error:any){
-                if(error){
-                    res.send({auth:false,message:'Token Invalid'})
-                }else{
-                    res.send({auth:true,message:"Token Valid"});
-                }
-            });
-        }
+        // let headerToken: any =  req.headers['access-token'];
+        // console.log(headerToken);
+        // if(headerToken){
+        //     jwt.verify(headerToken,CONFIG.secretKey,function(error:any){
+        //         if(error){
+        //             res.send({auth:false,message:'Token Invalid'})
+        //         }else{
+        //             res.send({auth:true,message:"Token Valid"});
+        //         }
+        //     });
+        // }
     }
 
     public checkAndSaveUser(req : Request, res: Response) : void {

@@ -28,21 +28,12 @@ export class EventController {
     // Description:
     public getAllEventsByUID(req: Request, res: Response){
         console.log(req.headers);
-        const headerToken: any = req.headers['access-token'];
-        const userId: any = req.query.uid;
-        if(headerToken){
-            jwt.verify(headerToken,CONFIG.secretKey, function(err:any){
-                if(!err){   
-                //    let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.*, p.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) INNER JOIN Participants AS p ON (p.EventId = e.Id) WHERE e.UserId = Users.Id ";
-                   Events.findAll({where:{UserId:userId}, include:[Locations,Participants,Users]}).then((records: any) => {
-                    res.send(records);
-                   });
-                }else{
-                    res.status(500).send({auth:false, message:"Session Timeout",err:err});
-                }
-            });
-        }else{
-            res.status(500).send({auth:false, message:"No Valid Token"});
-        }
+        const userId: any = req.query.uid; 
+        //    let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.*, p.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) INNER JOIN Participants AS p ON (p.EventId = e.Id) WHERE e.UserId = Users.Id ";
+        Events.findAll({where:{UserId:userId}, include:[Locations,Participants,Users]}).then((records: any) => {
+            res.send(records);
+        }).catch((error: any) => {
+            res.status(500).send({auth:false, message:"Error in fetching data",error:error});
+        });
     }
 }

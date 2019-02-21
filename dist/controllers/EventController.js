@@ -1,15 +1,6 @@
 "use strict";
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const config_1 = require("../config");
-const jwt = __importStar(require("jsonwebtoken"));
 const Events_1 = require("../models/Events");
 const Locations_1 = require("../models/Locations");
 const Users_1 = require("../models/Users");
@@ -31,24 +22,13 @@ class EventController {
     // Description:
     getAllEventsByUID(req, res) {
         console.log(req.headers);
-        const headerToken = req.headers['access-token'];
         const userId = req.query.uid;
-        if (headerToken) {
-            jwt.verify(headerToken, config_1.CONFIG.secretKey, function (err) {
-                if (!err) {
-                    //    let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.*, p.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) INNER JOIN Participants AS p ON (p.EventId = e.Id) WHERE e.UserId = Users.Id ";
-                    Events_1.Events.findAll({ where: { UserId: userId }, include: [Locations_1.Locations, Participants_1.Participants, Users_1.Users] }).then((records) => {
-                        res.send(records);
-                    });
-                }
-                else {
-                    res.status(500).send({ auth: false, message: "Session Timeout", err: err });
-                }
-            });
-        }
-        else {
-            res.status(500).send({ auth: false, message: "No Valid Token" });
-        }
+        //    let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.*, p.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) INNER JOIN Participants AS p ON (p.EventId = e.Id) WHERE e.UserId = Users.Id ";
+        Events_1.Events.findAll({ where: { UserId: userId }, include: [Locations_1.Locations, Participants_1.Participants, Users_1.Users] }).then((records) => {
+            res.send(records);
+        }).catch((error) => {
+            res.status(500).send({ auth: false, message: "Error in fetching data", error: error });
+        });
     }
 }
 exports.EventController = EventController;
