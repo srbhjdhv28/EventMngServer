@@ -39,7 +39,7 @@ class Server {
                 next();
             }
             else {
-                console.log(req);
+                console.log('test----' + req.headers['access-token']);
                 let headerToken = req.headers['access-token'];
                 if (headerToken) {
                     jwt.verify(headerToken, config_1.CONFIG.secretKey, function (error) {

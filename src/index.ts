@@ -31,7 +31,7 @@ class Server {
                 res.header('Access-Control-Allow-Headers', 'Content-Type,access-token, Content-Length, X-Requested-With, Accept');
                 next();
             }else{
-                console.log(req);
+                console.log('test----'+req.headers['access-token']);
                 let headerToken: any =  req.headers['access-token'];
                 if(headerToken){
                     jwt.verify(headerToken,CONFIG.secretKey,function(error:any){
