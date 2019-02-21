@@ -17,6 +17,7 @@ const config_1 = require("./config");
 const UserController_1 = require("./controllers/UserController");
 const EventController_1 = require("./controllers/EventController");
 const db_1 = __importDefault(require("./utility/db"));
+const cors = require("cors");
 const userController = new UserController_1.UserController();
 const eventController = new EventController_1.EventController();
 class Server {
@@ -30,6 +31,7 @@ class Server {
     config() {
         this.app.use(body_parser_1.default.urlencoded({ extended: true }));
         this.app.use(body_parser_1.default.json());
+        this.app.use(cors());
         this.app.use(function (req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-access-token");

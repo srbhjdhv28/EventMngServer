@@ -6,6 +6,7 @@ import {CONFIG}  from "./config";
 import {UserController} from "./controllers/UserController";
 import { EventController } from './controllers/EventController';
 import sequelize from './utility/db';
+const cors = require("cors");
 
 const userController = new UserController();
 const eventController = new EventController();
@@ -23,6 +24,7 @@ class Server {
     public  config(): void{
         this.app.use(bodyParser.urlencoded({extended:true}));        
         this.app.use(bodyParser.json());
+        this.app.use(cors());
         this.app.use(function(req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header('Access-Control-Allow-Headers', "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
