@@ -129,13 +129,13 @@ class UserController {
         Users_1.Users.findAll({ where: { email: email } }).then((records) => {
             console.log('recordss---' + JSON.stringify(records));
             if (records && records.length > 0) {
-                bcrypt.compare(password, records[0].password, function (error, result) {
+                bcrypt.compare(password, records[0].Password, function (error, result) {
                     if (result) {
                         const token = jwt.sign({ id: records[0].Id }, config_1.CONFIG.secretKey, { expiresIn: "2 days" }); //120000 = 2minutes
                         const userData = {
                             userId: records[0].id,
-                            firstName: records[0].firstName,
-                            lastName: records[0].lastName
+                            firstName: records[0].FirstName,
+                            lastName: records[0].LastName
                         };
                         res.send({ auth: true, message: "Password Matched", token: token, userData });
                     }
