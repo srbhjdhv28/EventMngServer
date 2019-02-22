@@ -42,5 +42,5 @@ exports.Events = db_1.default.define('events', {
         type: Sequelize.DATE,
         allowNull: true
     }
-});
+}, { freezeTableName: true });
 //# sourceMappingURL=Events.js.map

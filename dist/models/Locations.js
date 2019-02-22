@@ -22,5 +22,5 @@ exports.Locations = db_1.default.define('Locations', {
         type: Sequelize.INTEGER,
         allowNull: true
     }
-});
+}, { freezeTableName: true });
 //# sourceMappingURL=Locations.js.map

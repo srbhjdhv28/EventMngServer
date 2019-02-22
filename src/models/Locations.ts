@@ -18,4 +18,4 @@ export const Locations = sequelize.define('Locations', {
     type: Sequelize.INTEGER,
     allowNull: true
     }
-});
+},{freezeTableName: true});

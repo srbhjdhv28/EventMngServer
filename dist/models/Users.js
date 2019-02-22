@@ -6,33 +6,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../utility/db"));
 const Sequelize = require('sequelize');
 exports.Users = db_1.default.define('Users', {
-    lastName: {
+    LastName: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    firstName: {
+    FirstName: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    email: {
+    Email: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    password: {
+    Password: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    dob: {
+    DOB: {
         type: Sequelize.DATE,
         allowNull: true
     },
-    country: {
+    Country: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    logo: {
+    Logo: {
         type: Sequelize.STRING,
         allowNull: true
     }
-});
+}, { freezeTableName: true });
 //# sourceMappingURL=Users.js.map

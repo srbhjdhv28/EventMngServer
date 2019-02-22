@@ -5,38 +5,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = __importDefault(require("../utility/db"));
 const Sequelize = require('sequelize');
-exports.Participants = db_1.default.define('Participants', {
-    EventId: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-    },
-    Role: {
+exports.Address = db_1.default.define('Address', {
+    AddressLine1: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    HCPId: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-    },
-    RSVP_Status: {
+    AddressLine2: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    SignInId: {
-        type: Sequelize.INTEGER,
-        allowNull: true
-    },
-    FirstName: {
+    City: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    LastName: {
+    State: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    Email: {
+    PostalCode: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    Country: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    Phone: {
         type: Sequelize.STRING,
         allowNull: true
     }
-});
-//# sourceMappingURL=Participants.js.map
+}, { freezeTableName: true });
+//# sourceMappingURL=Address.js.map

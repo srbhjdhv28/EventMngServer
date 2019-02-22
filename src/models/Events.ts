@@ -38,4 +38,4 @@ export const Events = sequelize.define('events', {
                 type: Sequelize.DATE,
                 allowNull: true
         }
-      });
+      },{freezeTableName: true});

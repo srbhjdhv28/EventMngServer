@@ -6,31 +6,31 @@ export const Participants = sequelize.define('Participants', {
         type: Sequelize.INTEGER,
         allowNull: true
     },
-    role: {
+    Role: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    hcpId: {
+    HCPId: {
         type: Sequelize.INTEGER,
         allowNull: true
     },
-    rsvp_status: {
+    RSVP_Status: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    signInId: {
+    SignInId: {
         type: Sequelize.INTEGER,
         allowNull: true
     },
-    firstName: {
+    FirstName: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    lastName: {
+    LastName: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    email: {
+    Email: {
       type: Sequelize.STRING,
       allowNull: true
     }
