@@ -22,10 +22,6 @@ export const Events = sequelize.define('events', {
                 type: Sequelize.STRING,
                 allowNull: true
         },
-        LocationId: {
-                type: Sequelize.STRING,
-                allowNull: true
-        },
         UserId: {
                 type: Sequelize.INTEGER,
                 allowNull: true

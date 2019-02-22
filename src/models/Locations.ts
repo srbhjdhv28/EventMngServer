@@ -10,12 +10,32 @@ export const Locations = sequelize.define('Locations', {
       type: Sequelize.STRING,
       allowNull: true
     },
-    AddressId: {
-      type: Sequelize.INTEGER,
-      allowNull: true
-    },
     EventId: {
     type: Sequelize.INTEGER,
     allowNull: true
+    },
+    AddressLine1: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    AddressLine2: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    City: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    State: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    Country: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    PostalCode: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 },{freezeTableName: true});

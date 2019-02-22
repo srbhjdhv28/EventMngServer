@@ -27,7 +27,7 @@ class EventController {
         console.log(req.headers);
         const userId = req.query.uid;
         //    let eventQuery = "SELECT e.*, Users.Id, Users.FirstName as OwnerFirstName, Users.LastName as OwnerLastName, Locations.LocationName, a.*, p.* FROM EVENTS AS e INNER JOIN Users ON (e.UserId = '"+userId+"') INNER JOIN Locations ON (e.LocationId = Locations.Id) INNER JOIN Address AS a ON (a.Id = Locations.AddressId) INNER JOIN Participants AS p ON (p.EventId = e.Id) WHERE e.UserId = Users.Id ";
-        Events_1.Events.findAll({ where: { UserId: userId }, include: [{ model: Locations_1.Locations, include: [{ model: Address_1.Address }] }, { model: Participants_1.Participants }, { model: Users_1.Users }] }).then((records) => {
+        Events_1.Events.findAll({ where: { UserId: userId }, include: [{ model: Locations_1.Locations }, { model: Participants_1.Participants }, { model: Users_1.Users }] }).then((records) => {
             res.send(records);
         }).catch((error) => {
             res.status(500).send({ auth: false, message: "Error in fetching data", error: error });

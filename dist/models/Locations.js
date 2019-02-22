@@ -14,12 +14,32 @@ exports.Locations = db_1.default.define('Locations', {
         type: Sequelize.STRING,
         allowNull: true
     },
-    AddressId: {
+    EventId: {
         type: Sequelize.INTEGER,
         allowNull: true
     },
-    EventId: {
-        type: Sequelize.INTEGER,
+    AddressLine1: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    AddressLine2: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    City: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    State: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    Country: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    PostalCode: {
+        type: Sequelize.STRING,
         allowNull: true
     }
 }, { freezeTableName: true });
