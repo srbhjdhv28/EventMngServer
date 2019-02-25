@@ -2,31 +2,31 @@ import sequelize from '../utility/db';
 const Sequelize = require('sequelize');
 
 export const Users = sequelize.define('Users', {
-    LastName: {
+    lastName: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    FirstName: {
+    firstName: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    Email: {
+    email: {
       type: Sequelize.STRING,
       allowNull: true
     },
-    Password: {
+    password: {
     type: Sequelize.STRING,
     allowNull: true
     },
-    DOB: {
+    dob: {
     type: Sequelize.DATE,
     allowNull: true
     },
-    Country: {
+    country: {
         type: Sequelize.STRING,
         allowNull: true
     },
-    Logo: {
+    logo: {
         type: Sequelize.STRING,
         allowNull: true
     }
