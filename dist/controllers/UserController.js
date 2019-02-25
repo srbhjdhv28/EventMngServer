@@ -54,6 +54,7 @@ class UserController {
             subject: "Please confirm your Email account",
             html: "Hello,<br> Please verify your OTP.<br>" + otpNum
         };
+        console.log('otp=--------is---' + otpNum);
         smtpTransport.sendMail(mailOptions, function (err, response) {
             if (err) {
                 console.log(err);
