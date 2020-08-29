@@ -50,7 +50,7 @@ class Server {
 
     public routes (): void {
         // const router: express.Router = express.Router();
-        this.app('/getNews', (req, res) => {
+        this.app.use('/getNews', (req, res) => {
             res.send('The sedulous hyena ate the antelope!');
           });
         // this.app.use('/',router);
